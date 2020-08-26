@@ -1,0 +1,28 @@
+module filterFifo(clk, reset, in, out);
+	parameter DATA_WIDTH = 24;
+	input logic clk, reset;
+	input logic [DATA_WIDTH-1:0] in;
+	output logic [DATA_WIDTH-1:0] out;
+	
+	logic [DATA_WIDTH-1:0] write_data;
+	logic [DATA_WIDTH-1:0] read_data;
+	logic [DATA_WIDTH-1:0] accuIn;
+	logic [DATA_WIDTH-1:0] accOut;
+	
+	Altera_UP_SYNC_FIFO fifo (write_en,read_en,
+	fifo_is_empty,fifo_is_full,words_used,.*);
+	
+	always_comb begin
+		write_data = in / DATA_WIDTH;
+		accuIn = write_data - read_data + accOut;
+	end
+	
+	always_ff @(posedge clk) begin
+		if (reset)
+			accuOut <= '0;
+		else
+			accuOut <= accuIn;
+	end
+	
+	assign out = accuIn;
+endmodule

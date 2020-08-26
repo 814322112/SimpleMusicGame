@@ -1,0 +1,12 @@
+module boxDrawer(clk,VGA_H_CNT,VGA_V_CNT,oVGA_B,oVGA_G,oVGA_R,out_R,out_G,out_B);
+	input logic clk;
+	input reg [12:0] H_Cont, V_cont;
+	input logic [7:0] oVGA_B,oVGA_G,oVGA_R;
+	
+	output logic [7:0] out_R,out_G,out_B;
+	
+	assign out_R = oVGA_R;
+	assign out_G = oVGA_G;
+	assign out_B = oVGA_B;
+	
+endmodule

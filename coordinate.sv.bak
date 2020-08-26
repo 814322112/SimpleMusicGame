@@ -1,0 +1,45 @@
+module coordinate(clk,upBound,lowBound,leftBound,rightBound);
+	input logic clk;
+	output logic signed [12:0] upBound [0:3];
+	output logic signed [12:0] lowBound [0:3];
+	output logic signed [12:0] leftBound;
+	output logic signed [12:0] rightBound;
+	
+	parameter height = 30;
+	parameter width = 130;
+	
+	assign lowBound = upBound + height;
+	assign rightBound = leftBound + width;
+	
+	always_ff @(posedge clk) begin
+		if(reset) begin
+			upBound[0] <= -40;
+			upBound[1] <= -140;
+			upBound[2] <= -240;
+			upBound[3] <= -340;
+			leftBound <= 100;
+		end 
+		else begin 
+			if (upBound[0] > -1000 & lowBound[0] < 470)
+				upBound[0] <= upBound[0] + 1;
+			else if (lowBound[0] == 470)
+				upBound[0] <= -1000;
+			
+			if (upBound[1] > -1000 & lowBound[1] < 470)
+				upBound[1] <= upBound[1] + 1;
+			else if (lowBound[1] == 470)
+				upBound[1] <= -1000;
+				
+			if (upBound[2] > -1000 & lowBound[2] < 470)
+				upBound[2] <= upBound[2] + 1;
+			else if (lowBound[2] == 470)
+				upBound[2] <= -1000;
+				
+			if (upBound[3] > -1000 & lowBound[3] < 470)
+				upBound[3] <= upBound[3] + 1;
+			else if (lowBound[3] == 470)
+				upBound[3] <= -1000;
+		end
+	end
+	
+endmodule
